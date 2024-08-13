@@ -1,0 +1,5 @@
+package fastedge:builtins@0.1.0;
+
+world imports {
+    import dictionary;
+}

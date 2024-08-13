@@ -2,6 +2,8 @@
 
 #include <cstdlib>
 
+#include "../host-api/host_api_fastedge.h"
+
 
 using fastedge::fastedge::FastEdge;
 
@@ -44,7 +46,11 @@ bool FastEdge::getEnv(JSContext* cx, unsigned argc, JS::Value* vp) {
   }
 
   // print the keyChars to std out
-  std::cout << "EnvVar:>> keyChars: " << keyChars.get() << std::endl;
+  std::cout << "EnvVar:>> keyChars: 11 " << keyChars.get() << std::endl;
+
+  host_api::get_env_vars(keyChars.get());
+
+  // host_api::Dict dict = host_api::Dict();
 
   // Get the environment variable
   const char* valChars = std::getenv(keyChars.get());
@@ -53,6 +59,12 @@ bool FastEdge::getEnv(JSContext* cx, unsigned argc, JS::Value* vp) {
     std::cout << "EnvVar:>> valChars: IS NULL" << std::endl;
     return true;
   }
+
+
+  // farq: NOT USED
+  // auto key = bindings_string_t{};
+  // auto retVal = bindings_string_t{};
+  // fastedge_builtins_0_1_0_dictionary_get(keyChars.get(), &retVal);
 
   // print the valChars to std out
   std::cout << "EnvVar:>> valChars: " << valChars << std::endl;

@@ -16,11 +16,6 @@ typedef struct {
 } bindings_string_t;
 
 typedef struct {
-  bool is_some;
-  bindings_string_t val;
-} fastedge_builtins_0_1_0_dictionary_option_string_t;
-
-typedef struct {
   bindings_string_t f0;
   bindings_string_t f1;
 } wasi_cli_0_2_0_environment_tuple2_string_string_t;
@@ -1532,12 +1527,6 @@ typedef wasi_http_0_2_0_types_own_incoming_request_t exports_wasi_http_0_2_0_inc
 
 typedef wasi_http_0_2_0_types_own_response_outparam_t exports_wasi_http_0_2_0_incoming_handler_own_response_outparam_t;
 
-// Imported Functions from `fastedge:builtins/dictionary@0.1.0`
-// Get the value associated with the specified `key`
-// 
-// Returns `ok(none)` if the key does not exist.
-extern bool fastedge_builtins_0_1_0_dictionary_get(bindings_string_t *name, bindings_string_t *ret);
-
 // Imported Functions from `wasi:cli/environment@0.2.0`
 // Get the POSIX-style environment variables.
 // 
@@ -3037,8 +3026,6 @@ extern bool wasi_io_0_2_0_streams_method_output_stream_write(wasi_io_0_2_0_strea
         void exports_wasi_http_0_2_0_incoming_handler_handle(exports_wasi_http_0_2_0_incoming_handler_own_incoming_request_t request, exports_wasi_http_0_2_0_incoming_handler_own_response_outparam_t response_out);
         
         // Helper Functions
-        
-        void fastedge_builtins_0_1_0_dictionary_option_string_free(fastedge_builtins_0_1_0_dictionary_option_string_t *ptr);
         
         void wasi_cli_0_2_0_environment_tuple2_string_string_free(wasi_cli_0_2_0_environment_tuple2_string_string_t *ptr);
         

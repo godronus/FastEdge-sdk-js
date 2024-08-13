@@ -2,9 +2,6 @@
 #include "bindings.h"
 
 
-__attribute__((__import_module__("fastedge:builtins/dictionary@0.1.0"), __import_name__("get")))
-extern void __wasm_import_fastedge_builtins_0_1_0_dictionary_get(int32_t, int32_t, int32_t);
-
 __attribute__((__import_module__("wasi:cli/environment@0.2.0"), __import_name__("get-environment")))
 extern void __wasm_import_wasi_cli_0_2_0_environment_get_environment(int32_t);
 
@@ -537,12 +534,6 @@ void *cabi_realloc(void *ptr, size_t old_size, size_t align, size_t new_size) {
 }
 
 // Helper Functions
-
-void fastedge_builtins_0_1_0_dictionary_option_string_free(fastedge_builtins_0_1_0_dictionary_option_string_t *ptr) {
-  if (ptr->is_some) {
-    bindings_string_free(&ptr->val);
-  }
-}
 
 void wasi_cli_0_2_0_environment_tuple2_string_string_free(wasi_cli_0_2_0_environment_tuple2_string_string_t *ptr) {
   bindings_string_free(&ptr->f0);
@@ -1696,27 +1687,6 @@ void bindings_string_free(bindings_string_t *ret) {
 }
 
 // Component Adapters
-
-bool fastedge_builtins_0_1_0_dictionary_get(bindings_string_t *name, bindings_string_t *ret) {
-  __attribute__((__aligned__(4)))
-  uint8_t ret_area[12];
-  int32_t ptr = (int32_t) &ret_area;
-  __wasm_import_fastedge_builtins_0_1_0_dictionary_get((int32_t) (*name).ptr, (int32_t) (*name).len, ptr);
-  fastedge_builtins_0_1_0_dictionary_option_string_t option;
-  switch ((int32_t) (*((uint8_t*) (ptr + 0)))) {
-    case 0: {
-      option.is_some = false;
-      break;
-    }
-    case 1: {
-      option.is_some = true;
-      option.val = (bindings_string_t) { (uint8_t*)(*((int32_t*) (ptr + 4))), (size_t)(*((int32_t*) (ptr + 8))) };
-      break;
-    }
-  }
-  *ret = option.val;
-  return option.is_some;
-}
 
 void wasi_cli_0_2_0_environment_get_environment(wasi_cli_0_2_0_environment_list_tuple2_string_string_t *ret) {
   __attribute__((__aligned__(4)))

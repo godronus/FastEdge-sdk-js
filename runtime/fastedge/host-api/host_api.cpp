@@ -1,6 +1,7 @@
 #include "host_api.h"
 #include "bindings/bindings.h"
 
+#include "./host_api_fastedge.h"
 #include <exports.h>
 #include <list>
 #ifdef DEBUG
@@ -1229,6 +1230,38 @@ Result<HttpIncomingBody *> HttpIncomingRequest::body() {
   }
   return Result<HttpIncomingBody *>::ok(body_);
 }
+
+// FastEdge
+
+bool get_env_vars(std::string_view name) {
+  std::cout << "name 44: " << name << std::endl;
+  bindings_string_t name_str = string_view_to_world_string(name);
+  bindings_string_t value_str{};
+  fastedge_builtins_0_1_0_dictionary_get(&name_str, &value_str);
+  return true;
+}
+
+// // Result<std::optional<HostString>> Dict::get(std::string_view name) {
+// bool Dict::get(std::string_view name) {
+//   Result<std::optional<HostString>> res;
+
+//   auto name_str = string_view_to_world_string(name);
+
+//   std::cout << "name_str: " << name_str.len << std::endl;
+//   // fastly_world_option_string_t ret;
+//   // fastly_compute_at_edge_types_error_t err;
+
+//   // if (!fastedge_builtins_0_1_0_dictionary_get(this->handle, &name_str, &ret, &err)) {
+//   //   res.emplace_err(err);
+//   // } else if (ret.is_some) {
+//   //   res.emplace(make_host_string(ret.val));
+//   // } else {
+//   //   res.emplace(std::nullopt);
+//   // }
+
+//   return false;
+// }
+
 
 } // namespace host_api
 

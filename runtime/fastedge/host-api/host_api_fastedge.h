@@ -30,8 +30,8 @@ struct JSErrorFormatString;
 
 namespace host_api {
 
-HostString get_env_vars(std::string_view name);
-HostString get_secret_vars(std::string_view name);
+// HostString get_env_vars(std::string_view name);
+// HostString get_secret_vars(std::string_view name);
 
 } // namespace host_api
 

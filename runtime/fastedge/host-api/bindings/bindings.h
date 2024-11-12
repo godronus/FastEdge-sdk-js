@@ -14,35 +14,6 @@ typedef struct bindings_string_t {
 } bindings_string_t;
 
 typedef struct {
-  bool is_some;
-  bindings_string_t val;
-} bindings_option_string_t;
-
-// The set of errors which may be raised by functions in this interface
-typedef struct gcore_fastedge_secret_error_t {
-  uint8_t tag;
-  union {
-    bindings_string_t     other;
-  } val;
-} gcore_fastedge_secret_error_t;
-
-// The requesting component does not have access to the specified key
-// (which may or may not exist).
-#define GCORE_FASTEDGE_SECRET_ERROR_ACCESS_DENIED 0
-// Decryption error.
-#define GCORE_FASTEDGE_SECRET_ERROR_DECRYPT_ERROR 1
-// Some implementation-specific error has occurred (e.g. I/O)
-#define GCORE_FASTEDGE_SECRET_ERROR_OTHER 2
-
-typedef struct {
-  bool is_err;
-  union {
-    bindings_option_string_t ok;
-    gcore_fastedge_secret_error_t err;
-  } val;
-} gcore_fastedge_secret_result_option_string_error_t;
-
-typedef struct {
   bindings_string_t f0;
   bindings_string_t f1;
 } bindings_tuple2_string_string_t;
@@ -56,6 +27,11 @@ typedef struct {
   bindings_string_t *ptr;
   size_t len;
 } bindings_list_string_t;
+
+typedef struct {
+  bool is_some;
+  bindings_string_t val;
+} bindings_option_string_t;
 
 typedef struct {
   bool is_err;
@@ -1528,17 +1504,6 @@ typedef struct {
 typedef wasi_http_types_own_incoming_request_t exports_wasi_http_incoming_handler_own_incoming_request_t;
 
 typedef wasi_http_types_own_response_outparam_t exports_wasi_http_incoming_handler_own_response_outparam_t;
-
-// Imported Functions from `gcore:fastedge/dictionary`
-// Get the value associated with the specified `key`
-// 
-// Returns `ok(none)` if the key does not exist.
-extern bool gcore_fastedge_dictionary_get(bindings_string_t *name, bindings_string_t *ret);
-
-// Imported Functions from `gcore:fastedge/secret`
-// Get the secret associated with the specified `key`
-// Returns `ok(none)` if the key does not exist.
-extern bool gcore_fastedge_secret_get(bindings_string_t *key, bindings_option_string_t *ret, gcore_fastedge_secret_error_t *err);
 
 // Imported Functions from `wasi:cli/environment@0.2.0`
 // Get the POSIX-style environment variables.
@@ -3040,17 +3005,13 @@ void exports_wasi_http_incoming_handler_handle(exports_wasi_http_incoming_handle
 
 // Helper Functions
 
-void bindings_option_string_free(bindings_option_string_t *ptr);
-
-void gcore_fastedge_secret_error_free(gcore_fastedge_secret_error_t *ptr);
-
-void gcore_fastedge_secret_result_option_string_error_free(gcore_fastedge_secret_result_option_string_error_t *ptr);
-
 void bindings_tuple2_string_string_free(bindings_tuple2_string_string_t *ptr);
 
 void bindings_list_tuple2_string_string_free(bindings_list_tuple2_string_string_t *ptr);
 
 void bindings_list_string_free(bindings_list_string_t *ptr);
+
+void bindings_option_string_free(bindings_option_string_t *ptr);
 
 void wasi_cli_exit_result_void_void_free(wasi_cli_exit_result_void_void_t *ptr);
 

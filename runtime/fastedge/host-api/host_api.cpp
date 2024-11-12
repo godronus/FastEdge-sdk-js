@@ -1203,26 +1203,26 @@ std::ostream& operator<<(std::ostream& os, const bindings_string_t& str) {
 }
 // */
 
-HostString get_env_vars(std::string_view name) {
-  auto name_str = string_view_to_world_string(name);
-  bindings_string_t value_str{};
-  auto has_value = gcore_fastedge_dictionary_get(&name_str, &value_str);
-  if (!has_value) {
-    return nullptr;
-  }
-  return bindings_string_to_host_string(value_str);
-}
+// HostString get_env_vars(std::string_view name) {
+//   auto name_str = string_view_to_world_string(name);
+//   bindings_string_t value_str{};
+//   auto has_value = gcore_fastedge_dictionary_get(&name_str, &value_str);
+//   if (!has_value) {
+//     return nullptr;
+//   }
+//   return bindings_string_to_host_string(value_str);
+// }
 
-HostString get_secret_vars(std::string_view name) {
-  auto key_str = string_view_to_world_string(name);
-  bindings_option_string_t ret{};
-  gcore_fastedge_secret_error_t err;
-  auto has_value = gcore_fastedge_secret_get(&key_str, &ret, &err);
-  if (has_value && ret.is_some) {
-    return bindings_string_to_host_string(ret.val);
-  }
-  return nullptr;
-}
+// HostString get_secret_vars(std::string_view name) {
+//   auto key_str = string_view_to_world_string(name);
+//   bindings_option_string_t ret{};
+//   gcore_fastedge_secret_error_t err;
+//   auto has_value = gcore_fastedge_secret_get(&key_str, &ret, &err);
+//   if (has_value && ret.is_some) {
+//     return bindings_string_to_host_string(ret.val);
+//   }
+//   return nullptr;
+// }
 
 
 } // namespace host_api

@@ -82,6 +82,7 @@ if (inputFileName && outputFileName) {
   await buildWasm({
     input: inputFileName,
     output: outputFileName,
+    tsconfigPath: '',
   });
   colorLog('success', `Build success!!`);
   colorLog('info', `"${inputFileName}" -> "${outputFileName}"`);

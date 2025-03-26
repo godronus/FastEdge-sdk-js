@@ -1,8 +1,7 @@
 import { spawnSync } from 'node:child_process';
 import { rmSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 
 import { componentNew } from '@bytecodealliance/jco';
 import wizer from '@bytecodealliance/wizer';
@@ -18,7 +17,7 @@ import {
   resolveTmpDir,
   useUnixPath,
 } from '~utils/file-system.js';
-import { validateFilePaths } from '~utils/input-path-verification.js';
+import { validateWasmEngineExists } from '~utils/input-path-verification.js';
 
 async function componentize(jsInput, output, opts = {}) {
   const {
@@ -33,7 +32,7 @@ async function componentize(jsInput, output, opts = {}) {
 
   const wasmOutputDir = resolveOsPath(process.cwd(), output);
 
-  await validateFilePaths(jsPath, wasmOutputDir, wasmEngine);
+  await validateWasmEngineExists(wasmEngine);
 
   const contents = await getJsInputContents(jsPath, preBundleJSInput);
 

@@ -25,7 +25,12 @@ import { createOutputDirectory } from '~utils/file-system.js';
 /** @type {DefaultConfig} */
 const defaultConfig = {
   build: {
-    http: {},
+    http: {
+      // tsconfigPath: '',
+      // This works if provided for fastedge-build:c - but need to think through ramifications with vsCode extension and other tools
+      // possibly extra flag for "fastedge-build inputFile outputFile --tsconfig ./tsconfig.json"
+      // maybe should always be creating a frakenstein tsconfig.json file - bringing in paths etc from the user's tsconfig.json
+    },
     next: {},
     static: {
       input: '.fastedge/static-index.js',
@@ -40,9 +45,9 @@ const defaultConfig = {
     static: {
       extendedCache: [],
       publicDirPrefix: '',
-      compression: [], // not implemented - seems excessive for inline-wasm sizes ['br', 'gzip']
+      compression: [], // Not implemented - seems excessive for inline-wasm sizes ['br', 'gzip']
       notFoundPage: '/404.html',
-      autoExt: [], // never used before
+      autoExt: [], // Never used before
       autoIndex: ['index.html', 'index.htm'],
     },
   },

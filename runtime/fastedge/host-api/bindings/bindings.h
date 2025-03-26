@@ -3032,6 +3032,9 @@ extern bool wasi_http_types_method_future_incoming_response_get(wasi_http_types_
 // through the `future-incoming-response`.
 extern bool wasi_http_outgoing_handler_handle(wasi_http_outgoing_handler_own_outgoing_request_t request, wasi_http_outgoing_handler_own_request_options_t *maybe_options, wasi_http_outgoing_handler_own_future_incoming_response_t *ret, wasi_http_outgoing_handler_error_code_t *err);
 
+// Exported Functions from `gcore:fastedge/proxy-wasm`
+bool exports_gcore_fastedge_proxy_wasm_on_request_headers(void);
+
 // Exported Functions from `wasi:cli/run@0.2.0`
 bool exports_wasi_cli_run_run(void);
 

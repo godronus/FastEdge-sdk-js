@@ -587,6 +587,9 @@ extern void __wasm_import_wasi_http_types_method_future_incoming_response_get(in
 __attribute__((__import_module__("wasi:http/outgoing-handler@0.2.0"), __import_name__("handle")))
 extern void __wasm_import_wasi_http_outgoing_handler_handle(int32_t, int32_t, int32_t, uint8_t *);
 
+// Exported Functions from `gcore:fastedge/proxy-wasm`
+
+
 // Exported Functions from `wasi:cli/run@0.2.0`
 
 
@@ -9082,6 +9085,11 @@ bool wasi_http_outgoing_handler_handle(wasi_http_outgoing_handler_own_outgoing_r
     *err = result.val.err;
     return 0;
   }
+}
+
+__attribute__((__export_name__("gcore:fastedge/proxy-wasm#on-request-headers")))
+int32_t __wasm_export_exports_gcore_fastedge_proxy_wasm_on_request_headers(void) {
+  return false;
 }
 
 __attribute__((__export_name__("wasi:cli/run@0.2.0#run")))

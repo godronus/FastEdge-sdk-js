@@ -1,0 +1,4 @@
+interface proxy-wasm {
+  /// Run the program.
+  on-request-headers: func() -> bool;
+}

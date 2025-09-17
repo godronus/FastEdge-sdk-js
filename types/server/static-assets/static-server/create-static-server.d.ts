@@ -9,5 +9,5 @@ import type { StaticAssetManifest } from '~static-assets/asset-loader/create-sta
  */
 declare const createStaticServer: (staticAssetManifest: StaticAssetManifest, serverConfig: Partial<ServerConfig>) => StaticServer;
 export { createStaticServer };
-export type { StaticServer } from './types.ts';
+export type { ServerConfig, StaticServer } from './types.ts';
 export type { StaticAssetManifest } from '~static-assets/asset-loader/create-static-assets-cache.ts';

@@ -46,4 +46,4 @@ declare const normalizeFns: {
  * @returns The normalized configuration object.
  */
 declare function normalizeConfig<T extends Record<string, unknown>>(config: Partial<T>, normalize: Record<keyof T, keyof typeof normalizeFns>): T;
-export { normalizeConfig };
+export { normalizeConfig, normalizePath };

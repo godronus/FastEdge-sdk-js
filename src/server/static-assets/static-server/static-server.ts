@@ -310,7 +310,6 @@ const getStaticServer = (
         }
       }
     }
-
     return null;
   };
 

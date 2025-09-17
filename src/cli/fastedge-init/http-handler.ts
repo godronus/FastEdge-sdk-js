@@ -1,7 +1,8 @@
 import { createConfigFile } from './create-config.ts';
 
+import { colorLog } from '~utils/color-log.ts';
 import { isFile } from '~utils/file-system.ts';
-import { colorLog, inputPrompt } from '~utils/prompts.ts';
+import { inputPrompt } from '~utils/prompts.ts';
 
 /**
  * Sets up an HTTP application by prompting the user for input and output file paths.

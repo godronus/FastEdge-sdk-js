@@ -23,15 +23,15 @@ async function createStaticAssetsManifest(
 
   let outputPath = '/.fastedge/build/static-asset-manifest.js'; // Default output path
 
-  const { outputPath: providedOutputPath } = asssetCacheConfig;
+  const { assetManifestPath: providedOutputPath } = asssetCacheConfig;
   if (providedOutputPath?.length) {
     const allowNonExistentFile = true;
-    const { outputPath: normalizedOutputPath } = config;
+    const { assetManifestPath: normalizedOutputPath } = config;
     const outputIsAFile = await isFile(normalizedOutputPath, allowNonExistentFile);
     if (!outputIsAFile) {
       colorLog(
         'warning',
-        `The provided outputPath '${normalizedOutputPath}' is not a file. Using default path '${outputPath}' instead.`,
+        `The provided assetManifestPath '${normalizedOutputPath}' is not a file. Using default path '${outputPath}' instead.`,
       );
     } else {
       outputPath = normalizedOutputPath;
@@ -41,7 +41,6 @@ async function createStaticAssetsManifest(
   const manifestBuildOutput = resolveOsPath(`.${outputPath}`);
 
   await createOutputDirectory(manifestBuildOutput);
-
   const inlineAssetManifest = await createManifestFileMap(config);
 
   const readableAssetLines = Object.entries(inlineAssetManifest).map(
@@ -70,12 +69,12 @@ async function createStaticAssetsManifest(
 
 function normalizeAssetCacheConfig(config: Partial<AssetCacheConfig>): AssetCacheConfig {
   return normalizeConfig<AssetCacheConfig>(config, {
-    ignoreDotFiles: 'booleanTruthy',
-    ignoreWellKnown: 'booleanFalsy',
-    ignorePaths: 'pathsArray',
-    inputPath: 'path',
+    publicDir: 'path',
+    assetManifestPath: 'path',
     contentTypes: 'string',
-    outputPath: 'path',
+    ignoreDotFiles: 'booleanTruthy',
+    ignorePaths: 'pathsArray',
+    ignoreWellKnown: 'booleanFalsy',
   });
 }
 

@@ -1,12 +1,12 @@
 import { ContentTypeDefinition } from '../../../utils/content-types.ts';
 
 interface AssetCacheConfig extends Record<string, unknown> {
-  ignoreDotFiles: boolean;
-  ignoreWellKnown: boolean;
-  ignorePaths: string[];
-  inputPath: string;
+  publicDir: string;
+  assetManifestPath: string;
   contentTypes: Array<ContentTypeDefinition>;
-  outputPath: string;
+  ignoreDotFiles: boolean;
+  ignorePaths: string[];
+  ignoreWellKnown: boolean;
 }
 
 export type { AssetCacheConfig };

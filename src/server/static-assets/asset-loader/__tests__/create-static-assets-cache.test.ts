@@ -4,16 +4,16 @@ import type { StaticAsset, StaticAssetMetadata } from '../inline-asset/inline-as
 import type { StaticAssetManifest } from '../types.ts';
 
 // Mock the dependencies
-jest.mock('../asset-cache');
-jest.mock('../inline-asset');
+jest.mock('../asset-cache/asset-cache');
+jest.mock('../inline-asset/inline-asset');
 
 const mockCreateAssetCache = jest.fn();
-jest.mock('../asset-cache', () => ({
+jest.mock('../asset-cache//asset-cache', () => ({
   createAssetCache: jest.fn((...args) => mockCreateAssetCache(...args)),
 }));
 
 const mockCreateWasmInlineAsset = jest.fn();
-jest.mock('../inline-asset', () => ({
+jest.mock('../inline-asset/inline-asset', () => ({
   createWasmInlineAsset: jest.fn((...args) => mockCreateWasmInlineAsset(...args)),
 }));
 

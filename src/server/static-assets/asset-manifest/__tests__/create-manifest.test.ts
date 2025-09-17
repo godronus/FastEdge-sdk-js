@@ -5,6 +5,8 @@ import { createStaticAssetsManifest } from '../create-manifest.ts';
 
 import type { AssetCacheConfig, StaticAssetManifest } from '../types.ts';
 
+const publicDir = '/public';
+
 // Mocks
 const mockCreateManifestFileMap = jest.fn();
 const mockIsFile = jest.fn();
@@ -13,7 +15,7 @@ const mockCreateOutputDirectory = jest.fn();
 const mockColorLog = jest.fn();
 const mockNormalizeConfig = jest.fn();
 
-jest.mock('../create-manifest', () => ({
+jest.mock('../create-manifest-file-map', () => ({
   createManifestFileMap: (...args: any[]) => mockCreateManifestFileMap(...args),
   prettierObjectString: (...args: any[]) => mockPrettierObjectString(...args),
 }));
@@ -37,7 +39,7 @@ jest.mock('node:fs', () => ({
   writeFileSync: jest.fn(),
 }));
 
-const DEFAULT_OUTPUT_PATH = '/.fastedge/build/static-asset-manifest.js';
+const DEFAULT_ASSET_MANIFEST_PATH = '/.fastedge/build/static-asset-manifest.js';
 
 describe('createStaticAssetsManifest', () => {
   beforeEach(() => {
@@ -48,16 +50,16 @@ describe('createStaticAssetsManifest', () => {
   it('should create manifest file and return manifest object', async () => {
     expect.assertions(5);
     const config: Partial<AssetCacheConfig> = {
-      inputPath: '/public',
+      publicDir,
       ignoreDotFiles: true,
     };
     const normalizedConfig: AssetCacheConfig = {
-      inputPath: '/public',
+      publicDir,
       ignoreDotFiles: true,
       ignoreWellKnown: false,
       ignorePaths: [],
       contentTypes: [],
-      outputPath: '',
+      assetManifestPath: '',
     };
     const manifest: StaticAssetManifest = {
       '/index.html': {
@@ -73,7 +75,7 @@ describe('createStaticAssetsManifest', () => {
     mockNormalizeConfig.mockReturnValue(normalizedConfig);
     mockCreateManifestFileMap.mockResolvedValue(manifest);
 
-    const expectedManifestBuildOutput = path.resolve(`.${DEFAULT_OUTPUT_PATH}`);
+    const expectedManifestBuildOutput = path.resolve(`.${DEFAULT_ASSET_MANIFEST_PATH}`);
 
     const result = await createStaticAssetsManifest(config);
 
@@ -89,19 +91,19 @@ describe('createStaticAssetsManifest', () => {
     expect(result).toBe(manifest);
   });
 
-  it('should use provided outputPath if it is a file', async () => {
+  it('should use provided assetManifestPath if it is a file', async () => {
     expect.assertions(4);
     const config: Partial<AssetCacheConfig> = {
-      inputPath: '/public',
-      outputPath: '/custom/path/manifest.js',
+      publicDir,
+      assetManifestPath: '/custom/path/manifest.js',
     };
     const normalizedConfig: AssetCacheConfig = {
-      inputPath: '/public',
+      publicDir,
       ignoreDotFiles: false,
       ignoreWellKnown: false,
       ignorePaths: [],
       contentTypes: [],
-      outputPath: '/custom/path/manifest.js',
+      assetManifestPath: '/custom/path/manifest.js',
     };
     const manifest: StaticAssetManifest = {
       '/foo.txt': { assetKey: '/foo.txt', contentType: 'text/plain' } as any,
@@ -111,11 +113,11 @@ describe('createStaticAssetsManifest', () => {
     mockCreateManifestFileMap.mockResolvedValue(manifest);
     mockIsFile.mockResolvedValue(true);
 
-    const expectedManifestBuildOutput = path.resolve(`.${config.outputPath}`);
+    const expectedManifestBuildOutput = path.resolve(`.${config.assetManifestPath}`);
 
     const result = await createStaticAssetsManifest(config);
 
-    expect(mockIsFile).toHaveBeenCalledWith(config.outputPath, true);
+    expect(mockIsFile).toHaveBeenCalledWith(config.assetManifestPath, true);
     expect(mockCreateOutputDirectory).toHaveBeenCalledWith(expectedManifestBuildOutput);
     expect(writeFileSync).toHaveBeenCalledWith(
       expectedManifestBuildOutput,
@@ -124,19 +126,19 @@ describe('createStaticAssetsManifest', () => {
     expect(result).toBe(manifest);
   });
 
-  it('should fallback to default outputPath if provided outputPath is not a file', async () => {
+  it('should fallback to default assetManifestPath if provided assetManifestPath is not a file', async () => {
     expect.assertions(5);
     const config: Partial<AssetCacheConfig> = {
-      inputPath: '/public',
-      outputPath: '/not/a/file',
+      publicDir,
+      assetManifestPath: '/not/a/file',
     };
     const normalizedConfig: AssetCacheConfig = {
-      inputPath: '/public',
+      publicDir,
       ignoreDotFiles: false,
       ignoreWellKnown: false,
       ignorePaths: [],
       contentTypes: [],
-      outputPath: '/not/a/file',
+      assetManifestPath: '/not/a/file',
     };
     const manifest: StaticAssetManifest = {
       '/bar.txt': { assetKey: '/bar.txt', contentType: 'text/plain' } as any,
@@ -146,11 +148,11 @@ describe('createStaticAssetsManifest', () => {
     mockCreateManifestFileMap.mockResolvedValue(manifest);
     mockIsFile.mockResolvedValue(false);
 
-    const expectedManifestBuildOutput = path.resolve(`.${DEFAULT_OUTPUT_PATH}`);
+    const expectedManifestBuildOutput = path.resolve(`.${DEFAULT_ASSET_MANIFEST_PATH}`);
 
     const result = await createStaticAssetsManifest(config);
 
-    expect(mockIsFile).toHaveBeenCalledWith(config.outputPath, true);
+    expect(mockIsFile).toHaveBeenCalledWith(config.assetManifestPath, true);
     expect(mockColorLog).toHaveBeenCalledWith('warning', expect.stringContaining('is not a file'));
     expect(mockCreateOutputDirectory).toHaveBeenCalledWith(expectedManifestBuildOutput);
     expect(writeFileSync).toHaveBeenCalledWith(
@@ -162,14 +164,14 @@ describe('createStaticAssetsManifest', () => {
 
   it('should format manifest entries with prettierObjectString', async () => {
     expect.assertions(4);
-    const config: Partial<AssetCacheConfig> = { inputPath: '/public' };
+    const config: Partial<AssetCacheConfig> = { publicDir };
     const normalizedConfig: AssetCacheConfig = {
-      inputPath: '/public',
+      publicDir,
       ignoreDotFiles: false,
       ignoreWellKnown: false,
       ignorePaths: [],
       contentTypes: [],
-      outputPath: '',
+      assetManifestPath: '',
     };
     const manifest: StaticAssetManifest = {
       '/foo.txt': { assetKey: '/foo.txt', contentType: 'text/plain' } as any,
@@ -195,21 +197,21 @@ describe('createStaticAssetsManifest', () => {
 
   it('should handle empty manifest gracefully', async () => {
     expect.assertions(2);
-    const config: Partial<AssetCacheConfig> = { inputPath: '/public' };
+    const config: Partial<AssetCacheConfig> = { publicDir };
     const normalizedConfig: AssetCacheConfig = {
-      inputPath: '/public',
+      publicDir,
       ignoreDotFiles: false,
       ignoreWellKnown: false,
       ignorePaths: [],
       contentTypes: [],
-      outputPath: '',
+      assetManifestPath: '',
     };
     const manifest: StaticAssetManifest = {};
 
     mockNormalizeConfig.mockReturnValue(normalizedConfig);
     mockCreateManifestFileMap.mockResolvedValue(manifest);
 
-    const expectedManifestBuildOutput = path.resolve(`.${DEFAULT_OUTPUT_PATH}`);
+    const expectedManifestBuildOutput = path.resolve(`.${DEFAULT_ASSET_MANIFEST_PATH}`);
 
     const result = await createStaticAssetsManifest(config);
 
@@ -224,19 +226,19 @@ describe('createStaticAssetsManifest', () => {
     expect.assertions(1);
     const config: Partial<AssetCacheConfig> = {};
     const normalizedConfig: AssetCacheConfig = {
-      inputPath: '',
+      publicDir: '',
       ignoreDotFiles: false,
       ignoreWellKnown: false,
       ignorePaths: [],
       contentTypes: [],
-      outputPath: '',
+      assetManifestPath: '',
     };
     const manifest: StaticAssetManifest = {};
 
     mockNormalizeConfig.mockReturnValue(normalizedConfig);
     mockCreateManifestFileMap.mockResolvedValue(manifest);
 
-    const expectedManifestBuildOutput = path.resolve(`.${DEFAULT_OUTPUT_PATH}`);
+    const expectedManifestBuildOutput = path.resolve(`.${DEFAULT_ASSET_MANIFEST_PATH}`);
 
     await createStaticAssetsManifest(config);
 
@@ -245,14 +247,14 @@ describe('createStaticAssetsManifest', () => {
 
   it('should pass correct normalization schema to normalizeConfig', async () => {
     expect.assertions(1);
-    const config: Partial<AssetCacheConfig> = { inputPath: '/public' };
+    const config: Partial<AssetCacheConfig> = { publicDir };
     mockNormalizeConfig.mockReturnValue({
-      inputPath: '/public',
+      publicDir,
       ignoreDotFiles: false,
       ignoreWellKnown: false,
       ignorePaths: [],
       contentTypes: [],
-      outputPath: '',
+      assetManifestPath: '',
     });
 
     mockCreateManifestFileMap.mockResolvedValue({});
@@ -265,9 +267,9 @@ describe('createStaticAssetsManifest', () => {
         ignoreDotFiles: 'booleanTruthy',
         ignoreWellKnown: 'booleanFalsy',
         ignorePaths: 'pathsArray',
-        inputPath: 'path',
+        publicDir: 'path',
         contentTypes: 'string',
-        outputPath: 'path',
+        assetManifestPath: 'path',
       }),
     );
   });

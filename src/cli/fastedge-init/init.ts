@@ -2,8 +2,9 @@ import { setupHttpApp } from './http-handler.ts';
 import { setupStaticApp } from './static-site.ts';
 
 import { CONFIG_FILE_PATH } from '~constants/index.ts';
+import { colorLog } from '~utils/color-log.ts';
 import { isFile } from '~utils/file-system.ts';
-import { colorLog, confirmPrompt, selectPrompt } from '~utils/prompts.ts';
+import { confirmPrompt, selectPrompt } from '~utils/prompts.ts';
 
 /**
  * Initializes the FastEdge application based on user input.

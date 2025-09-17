@@ -36,5 +36,5 @@ function normalizeServerConfig(config: Partial<ServerConfig>): ServerConfig {
 
 export { createStaticServer };
 
-export type { StaticServer } from './types.ts';
+export type { ServerConfig, StaticServer } from './types.ts';
 export type { StaticAssetManifest } from '~static-assets/asset-loader/create-static-assets-cache.ts';

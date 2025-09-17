@@ -11,16 +11,15 @@ type ConfigObjType = 'build' | 'server';
 /**
  * Represents the type of configuration.
  */
-type ConfigType = 'http' | 'static' | 'next';
+type ConfigType = 'http' | 'static';
 
 /**
  * Represents the configuration type object.
  */
 interface ConfigTypeObject {
   http: Record<string, unknown>;
-  next: Record<string, unknown>;
   static: {
-    input?: string;
+    entryPoint?: string;
     ignoreDotFiles?: boolean;
     ignoreDirs?: string[];
     ignoreWellKnown?: boolean;
@@ -42,9 +41,8 @@ type DefaultConfig = Record<ConfigObjType, ConfigTypeObject>;
 const defaultConfig: DefaultConfig = {
   build: {
     http: {},
-    next: {},
     static: {
-      input: '.fastedge/static-index.js',
+      entryPoint: '.fastedge/static-index.js',
       ignoreDotFiles: true,
       ignoreDirs: ['./node_modules'],
       ignoreWellKnown: false,
@@ -52,7 +50,6 @@ const defaultConfig: DefaultConfig = {
   },
   server: {
     http: {},
-    next: {},
     static: {
       extendedCache: [],
       publicDirPrefix: '',

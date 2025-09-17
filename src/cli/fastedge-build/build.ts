@@ -1,11 +1,10 @@
 import arg from 'arg';
 
-import { buildWasm } from './config-build/build-wasm.ts';
-import { buildFromConfigFiles } from './config-build/index.ts';
+import { buildFromConfigFiles, buildWasm } from './config-build.ts';
 import { printHelp, printVersion } from './print-info.ts';
 
 import { CONFIG_FILE_PATH } from '~constants/index.ts';
-import { colorLog } from '~utils/prompts.ts';
+import { colorLog } from '~utils/color-log.ts';
 
 /**
  * Represents the parsed arguments from the CLI.
@@ -95,8 +94,8 @@ if (args._.length === 1) {
 
 if (inputFileName && outputFileName) {
   await buildWasm({
-    input: inputFileName,
-    output: outputFileName,
+    entryPoint: inputFileName,
+    wasmOutput: outputFileName,
   });
   colorLog('success', `Build success!!`);
   colorLog('info', `"${inputFileName}" -> "${outputFileName}"`);

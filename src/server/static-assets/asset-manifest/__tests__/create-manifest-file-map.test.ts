@@ -30,6 +30,8 @@ jest.mock('~utils/content-types', () => ({
   testFileContentType: (...args: any[]) => mockTestFileContentType(...args),
 }));
 
+const publicDir = '/public';
+
 describe('createManifestFileMap', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -37,12 +39,12 @@ describe('createManifestFileMap', () => {
   it('should create manifest with known content types', () => {
     expect.assertions(6);
     const config: AssetCacheConfig = {
-      inputPath: '/public',
+      publicDir,
       ignorePaths: [],
       ignoreDotFiles: true,
       ignoreWellKnown: true,
       contentTypes: [],
-      outputPath: 'unused/output/path',
+      assetManifestPath: 'unused/output/path',
     };
 
     const files = [path.resolve('./public/index.html'), path.resolve('./public/data.json')];
@@ -65,7 +67,7 @@ describe('createManifestFileMap', () => {
 
     const manifest = createManifestFileMap(config);
 
-    const publicDirPath = path.resolve(`./${config.inputPath}`);
+    const publicDirPath = path.resolve(`./${config.publicDir}`);
 
     expect(mockColorLog).toHaveBeenCalledWith(
       'info',
@@ -97,12 +99,12 @@ describe('createManifestFileMap', () => {
   it('should default to application/octet-stream for unknown content types', () => {
     expect.assertions(2);
     const config: AssetCacheConfig = {
-      inputPath: '/public',
+      publicDir,
       ignorePaths: [],
       ignoreDotFiles: false,
       ignoreWellKnown: false,
       contentTypes: [],
-      outputPath: 'unused/output/path',
+      assetManifestPath: 'unused/output/path',
     };
 
     const files = [path.resolve('./public/unknown.bin')];
@@ -134,12 +136,12 @@ describe('createManifestFileMap', () => {
   it('should log ignored directories', () => {
     expect.assertions(3);
     const config: AssetCacheConfig = {
-      inputPath: '/public',
+      publicDir,
       ignorePaths: ['/public/ignore1', '/public/ignore2'],
       ignoreDotFiles: true,
       ignoreWellKnown: true,
       contentTypes: [],
-      outputPath: 'unused/output/path',
+      assetManifestPath: 'unused/output/path',
     };
 
     mockGetFilesRecursively.mockReturnValue([]);
@@ -156,12 +158,12 @@ describe('createManifestFileMap', () => {
   it('should handle empty files array', () => {
     expect.assertions(1);
     const config: AssetCacheConfig = {
-      inputPath: '/public',
+      publicDir,
       ignorePaths: [],
       ignoreDotFiles: true,
       ignoreWellKnown: true,
       contentTypes: [],
-      outputPath: 'unused/output/path',
+      assetManifestPath: 'unused/output/path',
     };
 
     mockGetFilesRecursively.mockReturnValue([]);
@@ -176,12 +178,12 @@ describe('createManifestFileMap', () => {
   it('should handle multiple files and ignore paths', () => {
     expect.assertions(3);
     const config: AssetCacheConfig = {
-      inputPath: '/public',
+      publicDir,
       ignorePaths: ['/public/ignore'],
       ignoreDotFiles: false,
       ignoreWellKnown: false,
       contentTypes: [],
-      outputPath: 'unused/output/path',
+      assetManifestPath: 'unused/output/path',
     };
 
     const files = [path.resolve('./public/file1.txt'), path.resolve('./public/file2.txt')];
@@ -219,12 +221,12 @@ describe('createManifestFileMap', () => {
   it('should call getFilesRecursively with correct options', () => {
     expect.assertions(1);
     const config: AssetCacheConfig = {
-      inputPath: '/public',
+      publicDir,
       ignorePaths: ['/public/ignore'],
       ignoreDotFiles: true,
       ignoreWellKnown: false,
       contentTypes: [],
-      outputPath: 'unused/output/path',
+      assetManifestPath: 'unused/output/path',
     };
 
     mockGetFilesRecursively.mockReturnValue([]);

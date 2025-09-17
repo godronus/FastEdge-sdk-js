@@ -3,15 +3,15 @@ import { readFileSync } from 'node:fs';
 import { colorLog } from '~utils/color-log.ts';
 import { npxPackagePath } from '~utils/npx-path.ts';
 
-const USAGE_TEXT = `\nUsage: fastedge-build [options]
+const USAGE_TEXT = `\nUsage: fastedge-assets [options]
 
   Options:
 
   --help, -h      Print this help information
   --version, -v   Print the version number
-  --input, -i     <input-file> Js filepath to build (e.g. ./src/index.js)
-  --output, -o    <output-file> Output filepath for wasm (e.g. ./dist/main.wasm)
-  --config, -c    <config-file> Path to a build config file (default: ./.fastedge/build-config.js)
+  --input, -i     <input-path> Filepath to the public asset folder (e.g. ./public)
+  --output, -o    <output-file> Output filepath for static-asset-manifest (e.g. ./.fastedge/build/static-asset-manifest.js)
+  --config, -c    <config-file> Path to an asset build config file (default: ./.fastedge/asset-config.js)
 `;
 
 /**

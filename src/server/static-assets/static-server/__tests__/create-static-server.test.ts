@@ -8,10 +8,10 @@ const mockGetStaticServer = jest.fn();
 const mockCreateStaticAssetsCache = jest.fn();
 const mockNormalizeConfig = jest.fn();
 
-jest.mock('../server', () => ({
+jest.mock('../static-server', () => ({
   getStaticServer: (...args: any[]) => mockGetStaticServer(...args),
 }));
-jest.mock('~static-assets/asset-loader', () => ({
+jest.mock('~static-assets/asset-loader/create-static-assets-cache', () => ({
   createStaticAssetsCache: (...args: any[]) => mockCreateStaticAssetsCache(...args),
 }));
 jest.mock('~utils/config-helpers', () => ({

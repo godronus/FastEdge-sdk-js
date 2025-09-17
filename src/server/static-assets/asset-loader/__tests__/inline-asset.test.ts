@@ -9,7 +9,7 @@ jest.mock('fastedge::fs', () => ({
 }));
 
 const mockCreateEmbeddedStoreEntry = jest.fn();
-jest.mock('../embedded-store-entry', () => ({
+jest.mock('../embedded-store-entry/embedded-store-entry', () => ({
   createEmbeddedStoreEntry: jest.fn((...args) => mockCreateEmbeddedStoreEntry(...args)),
 }));
 

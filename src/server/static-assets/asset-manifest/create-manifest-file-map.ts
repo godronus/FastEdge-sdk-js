@@ -34,15 +34,20 @@ function prettierObjectString(obj: object): string {
  */
 function createManifestFileMap(asssetCacheConfig: AssetCacheConfig): StaticAssetManifest {
   // Need to make this recursive to support multiple input paths
-  const { contentTypes, ignoreDotFiles, ignorePaths, ignoreWellKnown, publicDir } =
+  const { contentTypes, ignoreDirs, ignoreDotFiles, ignorePaths, ignoreWellKnown, publicDir } =
     asssetCacheConfig;
   const publicDirPath = resolveOsPath(`./${publicDir}`);
 
   colorLog('info', `Using ${publicDirPath} as public directory`);
 
-  if ((ignorePaths ?? []).length > 0) {
+  const ignoreDirPaths = [
+    ...(Array.isArray(ignoreDirs) ? ignoreDirs : []),
+    ...(Array.isArray(ignorePaths) ? ignorePaths : []),
+  ];
+
+  if ((ignoreDirPaths ?? []).length > 0) {
     colorLog('info', `Ignoring directories:`);
-    for (const ignoreDir of ignorePaths ?? []) {
+    for (const ignoreDir of ignoreDirPaths ?? []) {
       colorLog('info', `    - ${ignoreDir}`);
     }
   }

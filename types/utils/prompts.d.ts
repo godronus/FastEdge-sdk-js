@@ -3,13 +3,6 @@ interface Choice<T> {
     name: string;
     value: T;
 }
-type LogColor = 'error' | 'success' | 'warning' | 'info' | 'caution' | 'standard';
-/**
- * Logs a message with a specific color.
- * @param color - The color to use for the log.
- * @param restArgs - The arguments to log.
- */
-declare const colorLog: (color: LogColor, ...restArgs: unknown[]) => void;
 /**
  * Prompts the user for input.
  * @param question - The question to ask.
@@ -40,4 +33,4 @@ declare const multiPrompt: <T>(question: string, choices: Array<Choice<T>>, init
  * @returns The user's confirmation.
  */
 declare const confirmPrompt: (question: string, defaultValue?: boolean) => Promise<boolean>;
-export { colorLog, confirmPrompt, inputPrompt, multiPrompt, selectPrompt };
+export { confirmPrompt, inputPrompt, multiPrompt, selectPrompt };

@@ -3,9 +3,9 @@ import type { BuildConfig } from './types.ts';
 import { componentize } from '~componentize/componentize.ts';
 import { createStaticAssetsManifest } from '~static-assets/asset-manifest/create-manifest.ts';
 import { colorLog } from '~utils/color-log.ts';
-import { loadConfig } from '~utils/config-helpers.ts';
 import { resolveOsPath } from '~utils/file-system.ts';
 import { validateFilePaths } from '~utils/input-path-verification.ts';
+import { loadConfig } from '~utils/load-config-file.ts';
 
 /**
  * Builds a WebAssembly file from the provided input and output paths.

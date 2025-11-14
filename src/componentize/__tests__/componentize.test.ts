@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { spawnSync } from 'node:child_process';
 import { rmSync } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
